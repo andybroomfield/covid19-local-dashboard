@@ -10,6 +10,7 @@ class CasesModel extends Model
 
   protected function mostRecentCaseDate() {
     $last_case = $this->asArray()
+                      ->select('date')
                       ->orderBy('date', 'DESC')
                       ->first();
     return $last_case['date'];
@@ -62,8 +63,14 @@ class CasesModel extends Model
 
     // Add date filter.
     $date_to = $this->mostRecentCaseDate();
-    $date_from = date('Y-m-d', strtotime($date_to . " -9 days"));
+    $date_from = date('Y-m-d', strtotime($date_to . ' -9 days'));
     $this->where('date >=', $date_from);
+
+    // Tables to select.
+    $this->select('cases.area_id, areas.name, areas.type, cases.daily, cases.cumlitive, cases.rate, cases.date');
+
+    // Join areas table to get the area name and type.
+    $this->join('areas', 'areas.id = cases.area_id', 'left');
 
     // Set areas filter.
     if (!empty($areas))
@@ -109,8 +116,16 @@ class CasesModel extends Model
       // The rate, difference between most recent rate and earliest in the week.
       $rolling_rate = end($cases_for_calculations)['rate'] - reset($cases_for_calculations)['rate'];
 
+      // Remove name and type from cases array.
+      foreach($area_cases as &$case_row) {
+        unset($case_row['name']);
+        unset($case_row['type']);
+      }
+
       // Build a summary for the area.
       $summary[$area_id] = [
+        'area'          => $last_area_case_row['name'],
+        'type'          => $last_area_case_row['type'],
         'total_cases'   => $last_area_case_row['cumlitive'],
         'total_rate'    => $last_area_case_row['rate'],
         'rolling_cases' => (string) $rolling_total,
