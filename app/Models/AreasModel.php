@@ -30,7 +30,7 @@ class AreasModel extends Model
     return $id;
   }
 
-  public function search($type, $search)
+  public function search($type = NULL, $search = NULL)
   {
     $this->asArray();
     if (!empty($type))

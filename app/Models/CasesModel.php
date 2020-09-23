@@ -130,7 +130,7 @@ class CasesModel extends Model
         'total_rate'    => $last_area_case_row['rate'],
         'rolling_cases' => (string) $rolling_total,
         'rolling_avg'   => number_format($rolling_avg, 2),
-        'rolling_rate'  => (string) $rolling_rate,
+        'rolling_rate'  => number_format($rolling_rate, 2),
         'cases'         => $area_cases,
       ];
     }

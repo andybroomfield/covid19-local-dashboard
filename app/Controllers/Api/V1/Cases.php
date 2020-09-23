@@ -7,14 +7,14 @@ class Cases extends BaseController
 	public function index() {
 
 		// Fetch area ids (required)
-		$areas = $this->request->getGet('area_id');
-		if ($areas)
+		$area_ids = $this->request->getGet('area_id');
+		if ($area_ids)
 		{
-			$areas = explode(';', $areas);
+			$area_ids = explode(';', $area_ids);
 		}
 
 		// Get cases summary
-		$cases = $this->casesModel->summary($areas);
+		$cases = $this->casesModel->summary($area_ids);
 
 		// If have results, echo JSON.
     if (empty($cases))
