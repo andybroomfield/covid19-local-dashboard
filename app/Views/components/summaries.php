@@ -1,6 +1,8 @@
-<?php foreach ($cases as $case_area_id => $case_data):
-  include APPPATH.'/Views/components/summary.php';
-endforeach; ?>
+<div class="summaries">
+  <?php foreach ($cases as $case_area_id => $case_data):
+    include APPPATH.'/Views/components/summary.php';
+  endforeach; ?>
+</div>
 <div class="summaries-info">
   <ul>
     <li><sup>*</sup> 7 day cases exclude the most recent 3 days.</li>

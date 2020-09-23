@@ -20,7 +20,7 @@
   <div class="area-case-summary--details">
     <div class="area-case-summary--details--totals">
       <div class="area-case-summary--details--totals--row">
-        <div class="area-case-summary--details--totals-row--cell">
+        <div class="area-case-summary--details--totals--row--cell">
           <h3>Total cases</h3>
           <p><?php echo esc($case_data['total_cases']); ?></p>
         </div>

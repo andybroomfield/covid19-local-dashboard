@@ -1,0 +1,153 @@
+:root {
+  --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --size-font-base: 1.6rem;
+  --size-font-h1: 2.4rem;
+  --size-font-h2: 2rem;
+  --size-font-h3: 1.8rem;
+  --colour-background: #eee;
+  --colour-text: #000;
+  --colour-text-negative: #fff;
+  --colour-link: #009;
+  --colour-link-hover: #00c;
+  --colour-header-background: #a00;
+  --colour-header-text: #fff;
+  --colour-form-background: #ccc;
+  --colour-form-text: #000;
+  --colour-card: #aaf;
+  --colour-card-text: #000;
+  --length-gutter: 1rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: var(--font-system);
+  font-size: var(--size-font-base);
+  background-color: var(--colour-background);
+  color: var(--colour-text);
+}
+
+/* General styles */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol {
+  margin: 0 0 var(--length-gutter);
+  padding: 0;
+}
+
+:last-child {
+  margin-bottom: 0;
+}
+
+a {
+  color: var(--colour-link);
+}
+a:hover,
+a:focus {
+  color: var(--colour-link-hover);
+}
+
+input[type="submit"] {
+  margin-top: var(--length-gutter);
+  padding: var(--length-gutter);
+  background-color: var(--colour-link);
+  color: var(--colour-text-negative);
+  border: none;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover,
+input[type="submit"]:focus {
+  background-color: var(--colour-link-hover);
+}
+
+/* Header */
+.header {
+  padding: var(--length-gutter);
+  background-color: var(--colour-header-background);
+  color: var(--colour-header-text);
+}
+
+/* Page layout */
+
+
+/* Dashboard */
+.dashboard {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.dashboard > [class*="dashboard--"] {
+  padding: var(--length-gutter);
+}
+
+.dashboard--areas {
+  background-color: var(--colour-form-background);
+  color: var(--colour-form-text);
+}
+
+.dashboard--summaries {
+  flex: 2 1 auto;
+}
+
+/* Areas form */
+.dashboard--areas ul,
+.dashboard--areas li {
+  display: block;
+  list-style-type: none;
+}
+
+.dashboard--areas input[type="submit"] {
+  display: block;
+  width: 100%;
+}
+
+/* Summaries cards */
+.summaries {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* justify-content: space-between; */
+  align-items: flex-start;
+  margin-top: calc(0 - var(--length-gutter));
+}
+
+.area-case-summary {
+  flex: 2 1 calc(33.33333333% - 2 * var(--length-gutter));
+  max-width: calc(33.33333333% - 2 * var(--length-gutter));
+  width: 100%;
+  margin: var(--length-gutter);
+  padding: var(--length-gutter);
+  background-color: var(--colour-card);
+  color: var(--colour-card-text);
+}
+
+.area-case-summary > [class*="area-case-summary--"],
+.area-case-summary--details--totals--row--cell {
+  margin-bottom: calc(2 * var(--length-gutter));
+}
+
+/* Footer */
+.summaries-info ul {
+  display: block;
+  list-style-type: none;
+}
