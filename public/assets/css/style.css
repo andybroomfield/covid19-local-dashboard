@@ -15,6 +15,10 @@
   --colour-form-text: #000;
   --colour-card: #aaf;
   --colour-card-text: #000;
+  --colour-footer-background: #000;
+  --colour-footer-text: #fff;
+  --colour-footer-link: #aaf;
+  --colour-footer-link-hover: #0f0;
   --length-gutter: 1rem;
 }
 
@@ -186,8 +190,24 @@ input[type="submit"]:focus {
   margin-bottom: calc(2 * var(--length-gutter));
 }
 
-/* Footer */
+/* Summaries Footer */
 .summaries-info ul {
   display: block;
   list-style-type: none;
+}
+
+/* Footer */
+.footer {
+  padding: var(--length-gutter);
+  background-color: var(--colour-footer-background);
+  color: var(--colour-footer-text);
+  text-align: center;
+}
+
+.footer a {
+  color: var(--colour-footer-link);
+}
+.footer a:hover,
+.footer a:focus {
+  color: var(--colour-footer-link-hover);
 }
