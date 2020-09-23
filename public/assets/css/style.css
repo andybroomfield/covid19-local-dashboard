@@ -95,13 +95,6 @@ input[type="submit"]:focus {
   flex-direction: column;
 }
 
-@media only screen and (min-width: 640px) {
-  .dashboard {
-    flex-direction: row;
-    align-items: stretch;
-  }
-}
-
 .dashboard > [class*="dashboard--"] {
   padding: var(--length-gutter);
 }
@@ -110,10 +103,27 @@ input[type="submit"]:focus {
   background-color: var(--colour-form-background);
   color: var(--colour-form-text);
   flex: 1 0 320px;
+  order: 2;
 }
 
 .dashboard--summaries {
   flex: 2 1 auto;
+  order: 1;
+}
+
+@media only screen and (min-width: 640px) {
+  .dashboard {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .dashboard--areas {
+    order: 1;
+  }
+
+  .dashboard--summaries {
+    order: 2;
+  }
 }
 
 /* Areas form */
