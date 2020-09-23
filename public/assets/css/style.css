@@ -7,18 +7,18 @@
   --colour-background: #eee;
   --colour-text: #000;
   --colour-text-negative: #fff;
-  --colour-link: #009;
-  --colour-link-hover: #00c;
-  --colour-header-background: #a00;
+  --colour-link: #1F9AAD;
+  --colour-link-hover: #109356;
+  --colour-header-background: #245652;
   --colour-header-text: #fff;
-  --colour-form-background: #ccc;
+  --colour-form-background: #E2F3F2;
   --colour-form-text: #000;
-  --colour-card: #aaf;
-  --colour-card-text: #000;
+  --colour-card: #25BAD0;
+  --colour-card-text: #fff;
   --colour-footer-background: #000;
   --colour-footer-text: #fff;
-  --colour-footer-link: #aaf;
-  --colour-footer-link-hover: #0f0;
+  --colour-footer-link: #2DE1FC;
+  --colour-footer-link-hover: #16C172;
   --length-gutter: 1rem;
 }
 
