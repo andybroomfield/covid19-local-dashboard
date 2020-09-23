@@ -7,5 +7,7 @@
     </li>
   <?php endforeach; ?>
 </ul>
-<?php echo form_submit('update', 'Update dashboard');
-echo form_close(); ?>
+<div class="area-form--actions">
+  <?php echo form_submit('update', 'Update dashboard'); ?>
+</div>
+<?php echo form_close(); ?>
