@@ -13,6 +13,7 @@
   --colour-header-text: #fff;
   --colour-form-background: #e0e0e0;
   --colour-form-text: #000;
+  --colour-form-actions-background: #d0d0d0;
   --colour-card: #25BAD0;
   --colour-card-text: #fff;
   --colour-footer-background: #000;
@@ -154,9 +155,9 @@ input[type="submit"]:focus {
 .area-form--actions {
   position: sticky;
   bottom: 0vh;
-  margin: calc(0 - var(--length-gutter));
+  margin: calc(0px - var(--length-gutter));
   padding: var(--length-gutter);
-  background-color: var(--colour-form-background);
+  background-color: var(--colour-form-actions-background);
 }
 
 /* Summaries cards */
