@@ -15,7 +15,7 @@ class Home extends BaseController
 		$areas = $this->areasModel->search('ltla');
 
 		// Get cases.
-		$cases = $this->casesModel->summary($area_ids);
+		$cases = (!empty($area_ids) ? $this->casesModel->summary($area_ids) : []);
 
 		// Enable form helper.
 		helper('form');
@@ -37,8 +37,15 @@ class Home extends BaseController
 	public function update() {
 
 		$area_ids = $this->request->getPost('area_id');
-		$area_ids = implode('+', $area_ids);
-		return redirect()->to('/?area_id=' . $area_ids);
+		if ($area_ids)
+		{
+			$area_ids = implode('+', $area_ids);
+			return redirect()->to('/?area_id=' . $area_ids);
+		}
+		else
+		{
+			return redirect()->to('/');
+		}
 	}
 
 	//--------------------------------------------------------------------
