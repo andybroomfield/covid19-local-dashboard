@@ -10,7 +10,7 @@ class Cases extends BaseController
 		$area_ids = $this->request->getGet('area_id');
 		if ($area_ids)
 		{
-			$area_ids = explode(';', $area_ids);
+			$area_ids = explode('+', $area_ids);
 		}
 
 		// Get cases summary

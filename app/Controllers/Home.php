@@ -8,7 +8,7 @@ class Home extends BaseController
 		$area_ids = $this->request->getVar('area_id');
 		if ($area_ids)
 		{
-			$area_ids = explode(';', $area_ids);
+			$area_ids = explode('+', $area_ids);
 		}
 
 		// Get areas.
@@ -37,7 +37,7 @@ class Home extends BaseController
 	public function update() {
 
 		$area_ids = $this->request->getPost('area_id');
-		$area_ids = implode(';', $area_ids);
+		$area_ids = implode('+', $area_ids);
 		return redirect()->to('/?area_id=' . $area_ids);
 	}
 
