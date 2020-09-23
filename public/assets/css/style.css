@@ -92,8 +92,14 @@ input[type="submit"]:focus {
 /* Dashboard */
 .dashboard {
   display: flex;
-  flex-direction: row;
-  align-items: stretch;
+  flex-direction: column;
+}
+
+@media only screen and (min-width: 640px) {
+  .dashboard {
+    flex-direction: row;
+    align-items: stretch;
+  }
 }
 
 .dashboard > [class*="dashboard--"] {
@@ -103,6 +109,7 @@ input[type="submit"]:focus {
 .dashboard--areas {
   background-color: var(--colour-form-background);
   color: var(--colour-form-text);
+  flex: 1 0 320px;
 }
 
 .dashboard--summaries {
@@ -132,13 +139,27 @@ input[type="submit"]:focus {
 }
 
 .area-case-summary {
-  flex: 2 1 calc(33.33333333% - 2 * var(--length-gutter));
-  max-width: calc(33.33333333% - 2 * var(--length-gutter));
+  flex: 2 1 calc(100% - 2 * var(--length-gutter));
+  max-width: calc(100% - 2 * var(--length-gutter));
   width: 100%;
   margin: var(--length-gutter);
   padding: var(--length-gutter);
   background-color: var(--colour-card);
   color: var(--colour-card-text);
+}
+
+@media only screen and (min-width: 960px) {
+  .area-case-summary {
+    flex: 2 1 calc(50% - 2 * var(--length-gutter));
+    max-width: calc(50% - 2 * var(--length-gutter));
+  }
+}
+
+@media only screen and (min-width: 1280px) {
+  .area-case-summary {
+    flex: 2 1 calc(33.33333333% - 2 * var(--length-gutter));
+    max-width: calc(33.33333333% - 2 * var(--length-gutter));
+  }
 }
 
 .area-case-summary > [class*="area-case-summary--"],
