@@ -14,8 +14,8 @@
   --colour-form-background: #e0e0e0;
   --colour-form-text: #000;
   --colour-form-actions-background: #d0d0d0;
-  --colour-card: #25BAD0;
-  --colour-card-text: #fff;
+  --colour-card-background: #86EEFE;
+  --colour-card-text: #000;
   --colour-footer-background: #000;
   --colour-footer-text: #fff;
   --colour-footer-link: #2DE1FC;
@@ -107,12 +107,10 @@ input[type="submit"]:focus {
 .dashboard--areas {
   background-color: var(--colour-form-background);
   color: var(--colour-form-text);
-  flex: 1 0 320px;
   order: 2;
 }
 
 .dashboard--summaries {
-  flex: 2 1 auto;
   order: 1;
 }
 
@@ -124,10 +122,13 @@ input[type="submit"]:focus {
 
   .dashboard--areas {
     order: 1;
+    max-width: 320px;
+    flex: 1 0 320px;
   }
 
   .dashboard--summaries {
     order: 2;
+    flex: 2 1 auto;
   }
 }
 
@@ -165,8 +166,8 @@ input[type="submit"]:focus {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  /* justify-content: space-between; */
-  align-items: flex-start;
+  justify-content: flex-start;
+  align-items: stretch;
   margin-top: calc(0 - var(--length-gutter));
 }
 
@@ -176,7 +177,7 @@ input[type="submit"]:focus {
   width: 100%;
   margin: var(--length-gutter);
   padding: var(--length-gutter);
-  background-color: var(--colour-card);
+  background-color: var(--colour-card-background);
   color: var(--colour-card-text);
 }
 
@@ -194,8 +195,7 @@ input[type="submit"]:focus {
   }
 }
 
-.area-case-summary > [class*="area-case-summary--"],
-.area-case-summary--details--totals--row--cell {
+.area-case-summary div[class*="area-case-summary--"]:not(:last-child) {
   margin-bottom: calc(2 * var(--length-gutter));
 }
 
