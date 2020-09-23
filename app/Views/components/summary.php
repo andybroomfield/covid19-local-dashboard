@@ -32,17 +32,24 @@
     </div>
     <div class="area-case-summary--details--cases">
       <h3>Cases in the last 10 days</h3>
-      <ul class="area-case-summary--details--cases--list">
-        <?php foreach($case_data['cases'] as $case): ?>
-          <li class="area-case-summary--details--cases--list--item">
-            <span class="area-case-summary--details--cases--list--item--header">
-              <?php echo date('d/m/Y', strtotime(esc($case['date']))); ?>:
-            </span>
-            <span class="area-case-summary--details--cases--list--item--number">
-              <?php echo esc($case['daily']); ?>
-            </span>
-          </li>
-        <?php endforeach; ?>
+      <table class="area-case-summary--details--cases--list">
+        <thead class="hidden">
+          <th>Date</th>
+          <th>Cases</th>
+        </thead>
+        <tbody>
+          <?php foreach($case_data['cases'] as $case): ?>
+            <tr class="area-case-summary--details--cases--list--item">
+              <td class="area-case-summary--details--cases--list--item--header">
+                <?php echo date('d/m/Y', strtotime(esc($case['date']))); ?>:
+              </td>
+              <td class="area-case-summary--details--cases--list--item--number">
+                <?php echo esc($case['daily']); ?>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
