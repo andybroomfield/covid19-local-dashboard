@@ -22,9 +22,9 @@ class Home extends BaseController
 
 		// Set data.
 		$data = [
-			'html_title' => 'Covid 19 Area Dashboard',
+			'html_title' => 'Covid 19 Local Area Dashboard',
 			'meta_description' => 'View UK Local area Covid cases data.',
-			'page_title' => 'Covid 19 Area Dashboard',
+			'page_title' => 'Covid 19 Local Area Dashboard',
 			'areas' => $areas,
 			'area_ids' => $area_ids ?? [],
 			'cases' => $cases,

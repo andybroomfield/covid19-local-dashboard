@@ -133,6 +133,15 @@ input[type="submit"]:focus {
   list-style-type: none;
 }
 
+.area-form-element {
+  display: flex;
+  padding: calc(var(--length-gutter) / 2) 0;
+}
+
+.area-form-element  > span {
+  margin-left: calc(var(--length-gutter) / 2);
+}
+
 .dashboard--areas input[type="submit"] {
   display: block;
   width: 100%;
