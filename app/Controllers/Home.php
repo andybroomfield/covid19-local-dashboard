@@ -34,6 +34,13 @@ class Home extends BaseController
 		return view('pages/home', $data);
 	}
 
+	public function update() {
+
+		$area_ids = $this->request->getPost('area_id');
+		$area_ids = implode(';', $area_ids);
+		return redirect()->to('/?area_id=' . $area_ids);
+	}
+
 	//--------------------------------------------------------------------
 
 }

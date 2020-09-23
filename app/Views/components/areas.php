@@ -1,4 +1,4 @@
-<?php echo form_open(); ?>
+<?php echo form_open('home/update'); ?>
 <h2>Select areas to display</h2>
 <ul>
   <?php foreach ($areas as $area): ?>
