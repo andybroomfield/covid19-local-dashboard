@@ -63,7 +63,7 @@ class CasesModel extends Model
 
     // Add date filter.
     $date_to = $this->mostRecentCaseDate();
-    $date_from = date('Y-m-d', strtotime($date_to . ' -9 days'));
+    $date_from = date('Y-m-d', strtotime($date_to . ' -10 days'));
     $this->where('date >=', $date_from);
 
     // Tables to select.
@@ -101,11 +101,14 @@ class CasesModel extends Model
       // Sort the area cases by date (will be the key).
       ksort($area_cases);
 
+      // Use the first case row for initial rate calculation.
+      $first_area_case_row = reset($area_cases);
+
       // Use last row for the totals.
       $last_area_case_row = end($area_cases);
 
       // Calculate the rolling averages and rate, do not use most recent 3 days.
-      $cases_for_calculations = array_slice($area_cases, 0, -3);
+      $cases_for_calculations = array_slice($area_cases, 1, -3);
 
       // The weekly case total.
       $rolling_total = array_sum(array_column($cases_for_calculations, 'daily'));
@@ -114,7 +117,7 @@ class CasesModel extends Model
       $rolling_avg = $rolling_total / count($cases_for_calculations);
 
       // The rate, difference between most recent rate and earliest in the week.
-      $rolling_rate = end($cases_for_calculations)['rate'] - reset($cases_for_calculations)['rate'];
+      $rolling_rate = end($cases_for_calculations)['rate'] - $first_area_case_row['rate'];
 
       // Remove name and type from cases array.
       foreach($area_cases as &$case_row) {
@@ -131,7 +134,7 @@ class CasesModel extends Model
         'rolling_cases' => (string) $rolling_total,
         'rolling_avg'   => number_format($rolling_avg, 2),
         'rolling_rate'  => number_format($rolling_rate, 2),
-        'cases'         => $area_cases,
+        'cases'         => array_slice($area_cases, 1),
       ];
     }
 
