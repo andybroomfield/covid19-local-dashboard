@@ -107,7 +107,8 @@ class CasesModel extends Model
       // Use last row for the totals.
       $last_area_case_row = end($area_cases);
 
-      // Calculate the rolling averages and rate, do not use most recent 3 days.
+      // The case rows to use for calculations, this should be 7 days.
+      // Do not use the first row, or the most recent 3 days.
       $cases_for_calculations = array_slice($area_cases, 1, -3);
 
       // The weekly case total.
@@ -134,6 +135,7 @@ class CasesModel extends Model
         'rolling_cases' => (string) $rolling_total,
         'rolling_avg'   => number_format($rolling_avg, 2),
         'rolling_rate'  => number_format($rolling_rate, 2),
+        // Remove the first, thats just for calculng the rolling rate.
         'cases'         => array_slice($area_cases, 1),
       ];
     }
