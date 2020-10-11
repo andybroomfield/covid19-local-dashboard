@@ -8,7 +8,7 @@ class Cases_csv_fetch extends BaseController
 	{
 		// Fetch csv file.
 		// https://c19downloads.azureedge.net/downloads/csv/coronavirus-cases_latest.csv
-		$csv_file_url = 'https://c19downloads.azureedge.net/downloads/csv/coronavirus-cases_latest.csv';
+		$csv_file_url = 'https://coronavirus.data.gov.uk/downloads/csv/coronavirus-cases_latest.csv';
 		$curlRequest = Services::curlrequest();
 		$fileResponse = $curlRequest->request('GET', $csv_file_url);
 		if ($fileResponse->getStatusCode() == '200')
