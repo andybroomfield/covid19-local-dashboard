@@ -8,7 +8,7 @@ class CasesModel extends Model
 
   protected $allowedFields = ['area_id', 'daily', 'cumlitive', 'rate', 'date'];
 
-  protected function mostRecentCaseDate() {
+  public function mostRecentCaseDate() {
     $last_case = $this->asArray()
                       ->select('date')
                       ->orderBy('date', 'DESC')
