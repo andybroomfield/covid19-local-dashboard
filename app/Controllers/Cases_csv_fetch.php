@@ -4,7 +4,7 @@ use Config\Services;
 
 class Cases_csv_fetch extends BaseController
 {
-	public function index()
+	public function index($force = NULL)
 	{
 		// Check most recent case.
 		$most_recent_case_date = $this->casesModel->mostRecentCaseDate();
@@ -13,7 +13,7 @@ class Cases_csv_fetch extends BaseController
 		$next_download_timestamp = strtotime(($most_recent_case_date ?? '2020-01-01') . ' + 2 Days') + 61200;
 
 		// If not yet time to download new cases.
-		if (time() < $next_download_timestamp)
+		if (time() < $next_download_timestamp && $force != 'force')
 		{
 			// Set a message not yet time to download.
 			$output_values =

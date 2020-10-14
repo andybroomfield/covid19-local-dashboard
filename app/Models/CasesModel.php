@@ -29,7 +29,7 @@ class CasesModel extends Model
       // Insert
       $this->insert($values);
       $id = $this->db->insertId();
-    } else
+    } elseif ($values !== $existing_case_row)
     {
       // Update
       $id = $existing_case_row['id'];
