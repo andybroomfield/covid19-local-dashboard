@@ -28,14 +28,15 @@ class Cases_csv_fetch extends BaseController
 
 			// Fetch csv file.
 			// https://c19downloads.azureedge.net/downloads/csv/coronavirus-cases_latest.csv
-			$csv_file_url = 'https://coronavirus.data.gov.uk/downloads/csv/coronavirus-cases_latest.csv';
+			// $csv_file_url = 'https://coronavirus.data.gov.uk/downloads/csv/coronavirus-cases_latest.csv';
+			$csv_file_url = 'https://api.coronavirus.data.gov.uk/v2/data?areaType=ltla&metric=cumCasesBySpecimenDate&metric=newCasesBySpecimenDate&metric=cumCasesBySpecimenDateRate&format=csv';
 			$curlRequest = Services::curlrequest();
 			$fileResponse = $curlRequest->request('GET', $csv_file_url);
 			if ($fileResponse->getStatusCode() == '200')
 			{
 				// Get file, decode and set up loop.
 				$file = $fileResponse->getBody();
-				$file = gzdecode($file);
+				// $file = gzdecode($file);
 				$rows = explode("\n", $file);
 				$row_number = 0;
 				$headers = [];
@@ -61,13 +62,13 @@ class Cases_csv_fetch extends BaseController
 					$row_data = array_combine($headers, $data);
 
 					// If this is todays date, skip it as data is unreliable.
-					if ($row_data['Specimen date'] == date('Y-m-d'))
+					if ($row_data['date'] == date('Y-m-d'))
 					{
 						continue;
 					}
 
 					// Area.
-					$area_key = $row_data['Area name'].$row_data['Area type'];
+					$area_key = $row_data['areaName'].$row_data['areaType'];
 					if (isset($areas[$area_key]))
 					{
 						$area_id = $areas[$area_key];
@@ -75,9 +76,9 @@ class Cases_csv_fetch extends BaseController
 					{
 						$area_values =
 						[
-							'name' => $row_data['Area name'],
-							'type' => $row_data['Area type'],
-							'code' => $row_data['Area code'],
+							'name' => $row_data['areaName'],
+							'type' => $row_data['areaType'],
+							'code' => $row_data['areaCode'],
 						];
 						$area_id = $this->areasModel->updateOrInsert($area_values);
 						$areas[$area_key] = $area_id;
@@ -87,10 +88,10 @@ class Cases_csv_fetch extends BaseController
 					$case_row_values =
 					[
 			      'area_id' => $area_id,
-			      'daily' => $row_data['Daily lab-confirmed cases'],
-			      'cumlitive' => $row_data['Cumulative lab-confirmed cases'],
-			      'rate' => $row_data['Cumulative lab-confirmed cases rate'],
-			      'date' => $row_data['Specimen date'],
+			      'daily' => $row_data['newCasesBySpecimenDate'],
+			      'cumlitive' => $row_data['cumCasesBySpecimenDate'],
+			      'rate' => $row_data['cumCasesBySpecimenDateRate'],
+			      'date' => $row_data['date'],
 			    ];
 					$case_row_id = $this->casesModel->updateOrInsert($case_row_values);
 
