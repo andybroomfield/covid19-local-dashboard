@@ -41,6 +41,7 @@ class AreasModel extends Model
     {
       $this->like('name', $search, 'both', NULL, true);
     }
+    $this->orderBy('name', 'asc');
     $result = $this->findAll();
     return $result;
   }
