@@ -28,81 +28,93 @@ class Cases_csv_fetch extends BaseController
 
 			// Fetch csv file.
 			// https://c19downloads.azureedge.net/downloads/csv/coronavirus-cases_latest.csv
-			$csv_file_url = 'https://coronavirus.data.gov.uk/downloads/csv/coronavirus-cases_latest.csv';
-			$curlRequest = Services::curlrequest();
-			$fileResponse = $curlRequest->request('GET', $csv_file_url);
-			if ($fileResponse->getStatusCode() == '200')
-			{
-				// Get file, decode and set up loop.
-				$file = $fileResponse->getBody();
-				$file = gzdecode($file);
-				$rows = explode("\n", $file);
-				$row_number = 0;
-				$headers = [];
-				$areas = [];
-				// Loop through each
-				foreach ($rows as $row)
-				{
-					$data = str_getcsv($row);
-					// If 0 row - get headers
-					if ($row_number == 0)
-					{
-						$headers = $data;
-						$row_number++;
-						continue;
-					}
-					// corrupt row
-					if (count($headers) != count($data))
-					{
-	      		continue;
-	    	  }
-
-					// Make row into associative array
-					$row_data = array_combine($headers, $data);
-
-					// If this is todays date, skip it as data is unreliable.
-					if ($row_data['Specimen date'] == date('Y-m-d'))
-					{
-						continue;
-					}
-
-					// Area.
-					$area_key = $row_data['Area name'].$row_data['Area type'];
-					if (isset($areas[$area_key]))
-					{
-						$area_id = $areas[$area_key];
-					} else
-					{
-						$area_values =
-						[
-							'name' => $row_data['Area name'],
-							'type' => $row_data['Area type'],
-							'code' => $row_data['Area code'],
-						];
-						$area_id = $this->areasModel->updateOrInsert($area_values);
-						$areas[$area_key] = $area_id;
-					}
-
-					// Case row.
-					$case_row_values =
-					[
-			      'area_id' => $area_id,
-			      'daily' => $row_data['Daily lab-confirmed cases'],
-			      'cumlitive' => $row_data['Cumulative lab-confirmed cases'],
-			      'rate' => $row_data['Cumulative lab-confirmed cases rate'],
-			      'date' => $row_data['Specimen date'],
-			    ];
-					$case_row_id = $this->casesModel->updateOrInsert($case_row_values);
-
-					$row_number++;
-				}
+			// $csv_file_url = 'https://coronavirus.data.gov.uk/downloads/csv/coronavirus-cases_latest.csv';
+			$csv_file_urls = [
+			 'https://api.coronavirus.data.gov.uk/v2/data?areaType=ltla&metric=cumCasesBySpecimenDate&metric=newCasesBySpecimenDate&metric=cumCasesBySpecimenDateRate&format=csv',
+			 'https://api.coronavirus.data.gov.uk/v2/data?areaType=utla&metric=cumCasesBySpecimenDate&metric=newCasesBySpecimenDate&metric=cumCasesBySpecimenDateRate&format=csv',
+			 'https://api.coronavirus.data.gov.uk/v2/data?areaType=region&metric=cumCasesBySpecimenDate&metric=newCasesBySpecimenDate&metric=cumCasesBySpecimenDateRate&format=csv',
+			 'https://api.coronavirus.data.gov.uk/v2/data?areaType=nation&metric=cumCasesBySpecimenDate&metric=newCasesBySpecimenDate&metric=cumCasesBySpecimenDateRate&format=csv',
+			];
+			$total_rows = 0;
+			$total_areas = 0;
+			foreach ($csv_file_urls as $csv_file_url) {
+  			$curlRequest = Services::curlrequest();
+  			$fileResponse = $curlRequest->request('GET', $csv_file_url);
+  			if ($fileResponse->getStatusCode() == '200')
+  			{
+  				// Get file, decode and set up loop.
+  				$file = $fileResponse->getBody();
+  				// $file = gzdecode($file);
+  				$rows = explode("\n", $file);
+  				$row_number = 0;
+  				$headers = [];
+  				$areas = [];
+  				// Loop through each
+  				foreach ($rows as $row)
+  				{
+  					$data = str_getcsv($row);
+  					// If 0 row - get headers
+  					if ($row_number == 0)
+  					{
+  						$headers = $data;
+  						$row_number++;
+  						continue;
+  					}
+  					// corrupt row
+  					if (count($headers) != count($data))
+  					{
+  	      		continue;
+  	    	  }
+  
+  					// Make row into associative array
+  					$row_data = array_combine($headers, $data);
+  
+  					// If this is todays date, skip it as data is unreliable.
+  					if ($row_data['date'] == date('Y-m-d'))
+  					{
+  						continue;
+  					}
+  
+  					// Area.
+  					$area_key = $row_data['areaName'].$row_data['areaType'];
+  					if (isset($areas[$area_key]))
+  					{
+  						$area_id = $areas[$area_key];
+  					} else
+  					{
+  						$area_values =
+  						[
+  							'name' => $row_data['areaName'],
+  							'type' => $row_data['areaType'],
+  							'code' => $row_data['areaCode'],
+  						];
+  						$area_id = $this->areasModel->updateOrInsert($area_values);
+  						$areas[$area_key] = $area_id;
+  					}
+  
+  					// Case row.
+  					$case_row_values =
+  					[
+  			      'area_id' => $area_id,
+  			      'daily' => $row_data['newCasesBySpecimenDate'],
+  			      'cumlitive' => $row_data['cumCasesBySpecimenDate'],
+  			      'rate' => $row_data['cumCasesBySpecimenDateRate'],
+  			      'date' => $row_data['date'],
+  			    ];
+  					$case_row_id = $this->casesModel->updateOrInsert($case_row_values);
+  
+  					$row_number++;
+  				}
+  			}
+  			$total_rows += $row_number;
+  			$total_areas += count($areas);
 			}
 
 			// Output rows and areas fethced.
 			$output_values =
 			[
-				'rows' => $row_number,
-				'areas' => count($areas),
+				'rows' => $total_rows,
+				'areas' => $total_areas,
 			];
 		}
 
