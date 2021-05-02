@@ -109,6 +109,7 @@ class CasesModel extends Model
 
       // The case rows to use for calculations, this should be 7 days.
       // Do not use the first row, or the most recent 4 days.
+      // See #9 for reasons.
       $cases_for_calculations = array_slice($area_cases, 1, -4);
 
       // The weekly case total.
