@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="area-case-summary--details--cases">
-      <h3>Cases in the last 10 days</h3>
+      <h3>Cases in the last 14 days</h3>
       <table class="area-case-summary--details--cases--list">
         <thead class="hidden">
           <th>Date</th>

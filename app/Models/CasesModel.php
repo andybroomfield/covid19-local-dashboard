@@ -63,7 +63,7 @@ class CasesModel extends Model
 
     // Add date filter.
     $date_to = $this->mostRecentCaseDate();
-    $date_from = date('Y-m-d', strtotime($date_to . ' -10 days'));
+    $date_from = date('Y-m-d', strtotime($date_to . ' -14 days'));
     $this->where('date >=', $date_from);
 
     // Tables to select.
@@ -108,8 +108,9 @@ class CasesModel extends Model
       $last_area_case_row = end($area_cases);
 
       // The case rows to use for calculations, this should be 7 days.
-      // Do not use the first row, or the most recent 3 days.
-      $cases_for_calculations = array_slice($area_cases, 1, -3);
+      // Do not use the first row, or the most recent 4 days.
+      // See #9 for reasons.
+      $cases_for_calculations = array_slice($area_cases, 1, -4);
 
       // The weekly case total.
       $rolling_total = array_sum(array_column($cases_for_calculations, 'daily'));
