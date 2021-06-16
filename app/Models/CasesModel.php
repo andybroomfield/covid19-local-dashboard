@@ -143,4 +143,27 @@ class CasesModel extends Model
 
     return $summary;
   }
+
+  public function history($areas)
+  {
+    // Query as array.
+    $this->asArray();
+
+    // Query those in areas.
+    $this->whereIn('area_id', $areas);
+
+    // Order by date asc.
+    $this->orderBy('date', 'ASC');
+
+    // Find all.
+    $cases = $this->findAll();
+
+    // Sort into array by area_id;
+    $history = [];
+    foreach($cases as $case)
+    {
+      $history[$case['area_id']][] = $case;
+    }
+    return $history;
+  }
 }
