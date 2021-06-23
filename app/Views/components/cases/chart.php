@@ -4,7 +4,7 @@
   foreach ($cases as $case)
   {
     $case_str .= esc($case['daily']) . ', ';
-    $date_str .= '"' . esc($case['date']) . '", ';
+    $date_str .= '"' . date('d/m/Y', strtotime(esc($case['date']))) . '", ';
   }
   $case_str = rtrim($case_str, ', ');
   $date_str = rtrim($date_str, ', ');
