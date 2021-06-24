@@ -73,7 +73,8 @@ a:focus {
   color: var(--colour-link-hover);
 }
 
-input[type="submit"] {
+input[type="submit"],
+.button {
   margin-top: var(--length-gutter);
   padding: var(--length-gutter);
   background-color: var(--colour-link);
@@ -85,11 +86,15 @@ input[type="submit"] {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
+  text-decoration: none;
 }
 
 input[type="submit"]:hover,
-input[type="submit"]:focus {
+input[type="submit"]:focus,
+.button:hover,
+.button:focus  {
   background-color: var(--colour-link-hover);
+  color: var(--colour-text-negative);
 }
 
 /* Header */
@@ -253,12 +258,19 @@ input[type="submit"]:focus {
   font-size: var(--size-font-h1);
 }
 
-.cases-chart {
+.area-cases {
   margin: var(--length-gutter);
 }
 
+.area-cases > * {
+  margin-bottom: calc(2 * var(--length-gutter));
+}
+
+.area-cases__footer {
+  text-align: center;
+}
+
 .cases-table {
-  margin: var(--length-gutter);
   padding: var(--length-gutter);
   width: calc(100% - 2 * var(--length-gutter));
   border-collapse: collapse;
