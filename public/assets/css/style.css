@@ -75,6 +75,7 @@ a:focus {
 
 input[type="submit"],
 .button {
+  display: inline-block;
   margin-top: var(--length-gutter);
   padding: var(--length-gutter);
   background-color: var(--colour-link);
@@ -216,10 +217,16 @@ input[type="submit"]:focus,
   margin-bottom: calc(2 * var(--length-gutter));
 }
 
-/* Summaries Footer */
+
+/* Summaries list */
 .summaries-info ul {
   display: block;
   list-style-type: none;
+}
+
+/* Summaries Footer */
+.area-case-summary--footer .button {
+  margin-top: 0;
 }
 
 /* Area Cases Page */

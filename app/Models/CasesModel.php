@@ -41,8 +41,8 @@ class CasesModel extends Model
   /**
    * Summary of cases by area.
    *
-   * Use a date range 10 most recent days.
-   * Remove the most recent 3 from summary calculations.
+   * Use a date range 14 most recent days.
+   * Remove the most recent 4 from summary calculations.
    * @param  Array|NULL  $areas
    *   Area of area IDs
    * @return Array
@@ -50,11 +50,11 @@ class CasesModel extends Model
    *   Will contain:
    *    - Total number of cases.
    *    - Total case rate (per 100,000).
-   *    - Cases over last 7 days (last cases minus 3 days ago).
-   *    - Cases rolling 7 days (last cases minus 3 days ago).
-   *    - Rate per 100,000 over 7 days (last cases minus 3 days ago).
-   *    - Case data for last 10 days.
-   *  Removing the last 3 days is to match Public Health England.
+   *    - Cases over last 7 days (last cases minus 4 days ago).
+   *    - Cases rolling 7 days (last cases minus 4 days ago).
+   *    - Rate per 100,000 over 7 days (last cases minus 4 days ago).
+   *    - Case data for last 14 days.
+   *  Removing the last 4 days is to match Public Health England.
    */
   public function summary($areas)
   {
@@ -67,7 +67,7 @@ class CasesModel extends Model
     $this->where('date >=', $date_from);
 
     // Tables to select.
-    $this->select('cases.area_id, areas.name, areas.type, cases.daily, cases.cumlitive, cases.rate, cases.date');
+    $this->select('cases.area_id, areas.name, areas.type, areas.slug, cases.daily, cases.cumlitive, cases.rate, cases.date');
 
     // Join areas table to get the area name and type.
     $this->join('areas', 'areas.id = cases.area_id', 'left');
@@ -131,6 +131,7 @@ class CasesModel extends Model
       $summary[$area_id] = [
         'area'          => $last_area_case_row['name'],
         'type'          => $last_area_case_row['type'],
+        'slug'          => $last_area_case_row['slug'],
         'total_cases'   => $last_area_case_row['cumlitive'],
         'total_rate'    => $last_area_case_row['rate'],
         'rolling_cases' => (string) $rolling_total,
