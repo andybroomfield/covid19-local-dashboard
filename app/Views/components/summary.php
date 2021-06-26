@@ -52,4 +52,7 @@
       </table>
     </div>
   </div>
+  <div class="area-case-summary--footer">
+    <a class="button" role="button" href="/cases/<?php echo esc($case_data['type']); ?>/<?php echo esc($case_data['slug']); ?>">View area history</a>
+  </div>
 </div>
