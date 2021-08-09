@@ -32,6 +32,9 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
+// Cases to allow slug on index route.
+$routes->add('cases/(:segment)/(:segment)', 'Cases::index/$1/$2');
+
 /**
  * --------------------------------------------------------------------
  * Additional Routing
