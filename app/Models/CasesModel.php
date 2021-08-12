@@ -107,10 +107,14 @@ class CasesModel extends Model
       // Use last row for the totals.
       $last_area_case_row = end($area_cases);
 
+      // Third row for rate calculation.
+      $third_area_case_slice = array_slice($area_cases, 3, 1);
+      $third_area_case_row = reset($third_area_case_slice);
+
       // The case rows to use for calculations, this should be 7 days.
       // Do not use the first row, or the most recent 4 days.
       // See #9 for reasons.
-      $cases_for_calculations = array_slice($area_cases, 1, -4);
+      $cases_for_calculations = array_slice($area_cases, 4, -4);
 
       // The weekly case total.
       $rolling_total = array_sum(array_column($cases_for_calculations, 'daily'));
@@ -119,7 +123,7 @@ class CasesModel extends Model
       $rolling_avg = $rolling_total / count($cases_for_calculations);
 
       // The rate, difference between most recent rate and earliest in the week.
-      $rolling_rate = end($cases_for_calculations)['rate'] - $first_area_case_row['rate'];
+      $rolling_rate = end($cases_for_calculations)['rate'] - $third_area_case_row['rate'];
 
       // Remove name and type from cases array.
       foreach($area_cases as &$case_row) {
