@@ -112,9 +112,11 @@ class CasesModel extends Model
       $third_area_case_row = reset($third_area_case_slice);
 
       // The case rows to use for calculations, this should be 7 days.
-      // Do not use the first row, or the most recent 4 days.
+      // Do not use the first 3 rows, or the most recent 4 days.
       // See #9 for reasons.
-      $cases_for_calculations = array_slice($area_cases, 4, -4);
+      // Changed length to 7 from -4, as sometimes not a full 14 day set has been fetched.
+      // This led to strange rates being displayed or not found.
+      $cases_for_calculations = array_slice($area_cases, 4, 7);
 
       // The weekly case total.
       $rolling_total = array_sum(array_column($cases_for_calculations, 'daily'));
