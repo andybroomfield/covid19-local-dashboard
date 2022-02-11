@@ -6,7 +6,7 @@ class CasesModel extends Model
 {
   protected $table = 'cases';
 
-  protected $allowedFields = ['area_id', 'daily', 'cumlitive', 'rate', 'date'];
+  protected $allowedFields = ['area_id', 'daily', 'cumlitive', 'rate', 'rolling_rate', 'date'];
 
   public function mostRecentCaseDate() {
     $last_case = $this->asArray()
