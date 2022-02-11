@@ -67,7 +67,7 @@ class CasesModel extends Model
     $this->where('date >=', $date_from);
 
     // Tables to select.
-    $this->select('cases.area_id, areas.name, areas.type, areas.slug, cases.daily, cases.cumlitive, cases.rate, cases.date');
+    $this->select('cases.area_id, areas.name, areas.type, areas.slug, cases.daily, cases.cumlitive, cases.rate, cases.rolling_rate, cases.date');
 
     // Join areas table to get the area name and type.
     $this->join('areas', 'areas.id = cases.area_id', 'left');
@@ -123,7 +123,7 @@ class CasesModel extends Model
       $rolling_avg = $rolling_total / count($cases_for_calculations);
 
       // The rate, difference between most recent rate and earliest in the week.
-      $rolling_rate = end($cases_for_calculations)['rate'] - $third_area_case_row['rate'];
+      $rolling_rate = end($cases_for_calculations)['rolling_rate'];
 
       // Remove name and type from cases array.
       foreach($area_cases as &$case_row) {
