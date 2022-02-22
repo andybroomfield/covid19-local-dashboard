@@ -6,6 +6,10 @@ class Cases_csv_fetch extends BaseController
 {
 	public function index($force = NULL)
 	{
+		// Increase max execution time to prevent timeout.
+		// This is due to the size of the imports.
+		set_time_limit(180);
+
 		// Check most recent case.
 		$most_recent_case_date = $this->casesModel->mostRecentCaseDate();
 
