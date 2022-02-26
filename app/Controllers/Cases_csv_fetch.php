@@ -4,14 +4,14 @@ use Config\Services;
 
 class Cases_csv_fetch extends BaseController
 {
-	public function index($force = NULL)
+	public function index($area_type = NULL, $force = NULL)
 	{
 		// Increase max execution time to prevent timeout.
 		// This is due to the size of the imports.
 		set_time_limit(600);
 
 		// Check most recent case.
-		$most_recent_case_date = $this->casesModel->mostRecentCaseDate();
+		$most_recent_case_date = $this->casesModel->mostRecentCaseDate($area_type);
 
 		// Unix timestamp for when to download next cases (4pm next day).
 		$next_download_timestamp = strtotime(($most_recent_case_date ?? '2020-01-01') . ' + 2 Days') + 61200;
@@ -33,15 +33,18 @@ class Cases_csv_fetch extends BaseController
 			// Fetch csv file.
 			// https://c19downloads.azureedge.net/downloads/csv/coronavirus-cases_latest.csv
 			// $csv_file_url = 'https://coronavirus.data.gov.uk/downloads/csv/coronavirus-cases_latest.csv';
-			$csv_file_urls = [
-			 'https://api.coronavirus.data.gov.uk/v2/data?areaType=ltla&metric=cumCasesBySpecimenDate&metric=newCasesBySpecimenDate&metric=cumCasesBySpecimenDateRate&metric=newCasesBySpecimenDateRollingRate&format=csv',
-			 'https://api.coronavirus.data.gov.uk/v2/data?areaType=utla&metric=cumCasesBySpecimenDate&metric=newCasesBySpecimenDate&metric=cumCasesBySpecimenDateRate&metric=newCasesBySpecimenDateRollingRate&format=csv',
-			 'https://api.coronavirus.data.gov.uk/v2/data?areaType=region&metric=cumCasesBySpecimenDate&metric=newCasesBySpecimenDate&metric=cumCasesBySpecimenDateRate&metric=newCasesBySpecimenDateRollingRate&format=csv',
-			 'https://api.coronavirus.data.gov.uk/v2/data?areaType=nation&metric=cumCasesBySpecimenDate&metric=newCasesBySpecimenDate&metric=cumCasesBySpecimenDateRate&metric=newCasesBySpecimenDateRollingRate&format=csv',
-			];
+			
+			// Define csv file url.
+			$csv_file_url = 'https://api.coronavirus.data.gov.uk/v2/data?metric=cumCasesBySpecimenDate&metric=newCasesBySpecimenDate&metric=cumCasesBySpecimenDateRate&metric=newCasesBySpecimenDateRollingRate&format=csv';
+			
+			// If an area type defined and is known, add it to the url.
+			if (in_array($area_type, ['ltla', 'utla', 'region', 'nation']))
+			{
+				$csv_file_url .= '&areaType=' . $area_type;
+			}
+
 			$total_rows = 0;
 			$total_areas = 0;
-			foreach ($csv_file_urls as $csv_file_url) {
   			$curlRequest = Services::curlrequest();
   			$fileResponse = $curlRequest->request('GET', $csv_file_url);
   			if ($fileResponse->getStatusCode() == '200')
@@ -113,7 +116,6 @@ class Cases_csv_fetch extends BaseController
   			}
   			$total_rows += $row_number;
   			$total_areas += count($areas);
-			}
 
 			// Output rows and areas fethced.
 			$output_values =
