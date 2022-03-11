@@ -13,7 +13,7 @@ class Cases_csv_fetch extends BaseController
 		// Check most recent case.
 		$most_recent_case_date = $this->casesModel->mostRecentCaseDate($area_type);
 
-		// Unix timestamp for when to download next cases (4pm next day).
+		// Unix timestamp for when to download next cases (5pm next day).
 		$next_download_timestamp = strtotime(($most_recent_case_date ?? '2020-01-01') . ' + 2 Days') + 61200;
 
 		// If not yet time to download new cases.
