@@ -81,6 +81,12 @@ class Cases_csv_fetch extends BaseController
   					{
   						continue;
   					}
+
+					// Skip over anything older than 15 days unless forced.
+  					if (strtotime($row_data['date']) < strtotime('-15 days') && empty($force))
+  					{
+  						continue;
+  					}
   
   					// Area.
   					$area_key = $row_data['areaName'].$row_data['areaType'];
