@@ -8,11 +8,20 @@ class CasesModel extends Model
 
   protected $allowedFields = ['area_id', 'daily', 'cumlitive', 'rate', 'rolling_rate', 'date'];
 
-  public function mostRecentCaseDate() {
-    $last_case = $this->asArray()
-                      ->select('date')
-                      ->orderBy('date', 'DESC')
-                      ->first();
+  public function mostRecentCaseDate($area_type = NULL) {
+    $this->asArray()
+         ->select('cases.date')
+         ->orderBy('date', 'DESC');
+
+    // If an area type is defined, join to areas table.
+    if (in_array($area_type, ['ltla', 'utla', 'region', 'nation']))
+    {
+      $this->join('areas', 'areas.id = cases.area_id', 'left')
+           ->where('areas.type', $area_type);
+    }
+
+    // Get and return the last date.
+    $last_case = $this->first();
     return $last_case['date'];
   }
 
